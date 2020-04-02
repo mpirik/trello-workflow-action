@@ -1,0 +1,50 @@
+name: Trello Workflow Action
+author: Mpirik
+description: Run simple scripts using the GitHub client and trello api
+branding:
+  color: blue
+  icon: code
+inputs:
+  github-token:
+    description: The GitHub token used to create an authenticated client
+    default: ${{ github.token }}
+    required: false
+  trello-key:
+    description: The trello key used to authorize trello api requests
+    required: true
+  trello-token:
+    description: The trello token used to authorize trello api requests
+    required: true
+  trello-board-name:
+    description: The name of the trello board to update cards
+    required: true
+  debug:
+    description: Whether to tell the GitHub client to log details of its requests
+    default: "false"
+    required: false
+  user-agent:
+    description: An optional user-agent string
+    default: trello-workflow-action
+    required: false
+  working-on-destination-list:
+    description: Trello list to move cards for working on workflow
+    default: Doing
+    required: false
+  pr-ready-destination-list:
+    description: Trello list to move cards for PR ready workflow
+    default: Review
+    required: false
+  pr-merged-destination-list:
+    description: Trello list to move cards after PR has merged
+    default: Done
+    required: false
+  pr-merged-close-milestone:
+    description: Close milestone and create github release after PR has merged
+    default: "true"
+    required: false
+outputs:
+  result:
+    description: The return value of the workflow, stringified with `JSON.stringify`
+runs:
+  using: node12
+  main: dist/index.js
