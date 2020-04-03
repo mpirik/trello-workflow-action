@@ -91,7 +91,7 @@ async function main(): Promise<void> {
       },
       addAttachmentToCard: {
         method: 'POST',
-        url: 'https://api.trello.com/1/cards/:cardId/attachments',
+        url: 'https://api.trello.com/1/cards/:cardId/attachments?key=:key&token=:token&name=:name&url=:url',
         params: {
           key: {
             required: true,

@@ -4,6 +4,8 @@
     "lib": ["esnext"],
     "moduleResolution": "node",
 
+    "inlineSourceMap": true,
+
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,

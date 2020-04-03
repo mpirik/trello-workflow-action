@@ -70,19 +70,11 @@ export class PullRequestMerged extends WorkflowBase {
         due: now,
       });
 
-      console.log('Adding milestone as card attachment');
-      await this.github.trello.addAttachmentToCard({
-        key: this.trelloKey,
-        token: this.trelloToken,
-        cardId: card.id,
-        name: 'github-milestone',
-        url: milestone.html_url,
-      });
-
       console.log('Assigning PR to milestone');
       await this.github.issues.update({
         owner: this.context.repo.owner,
         repo: this.context.repo.repo,
+        // eslint-disable-next-line @typescript-eslint/camelcase
         issue_number: this.context.payload.pull_request.number,
         milestone: milestone.number,
       });
@@ -91,7 +83,7 @@ export class PullRequestMerged extends WorkflowBase {
       const releaseNameMatches = now.match(/^([0-9]+)-([0-9]+)-([0-9]+)T([0-9]+):([0-9]+):([0-9]+)/);
       if (releaseNameMatches) {
         let releaseName = '';
-        for (let i = 1; i < releaseNameMatches.length; i++) {
+        for (let i = 1; i < releaseNameMatches.length; i += 1) {
           releaseName += releaseNameMatches[i];
         }
 
@@ -99,15 +91,24 @@ export class PullRequestMerged extends WorkflowBase {
         await this.github.repos.createRelease({
           owner: this.context.repo.owner,
           repo: this.context.repo.repo,
+          // eslint-disable-next-line @typescript-eslint/camelcase
           tag_name: releaseName,
           name: releaseName,
           body: `* [${card.name}](${card.shortUrl})`,
         });
-
         console.log('Done creating github release!');
       } else {
         console.error('Could not figure out how to name the release :(');
       }
+
+      console.log('Adding milestone as card attachment');
+      await this.github.trello.addAttachmentToCard({
+        key: this.trelloKey,
+        token: this.trelloToken,
+        cardId: card.id,
+        name: 'github-milestone',
+        url: milestone.html_url,
+      });
     } catch (ex) {
       console.error(ex);
     }
@@ -124,6 +125,7 @@ export class PullRequestMerged extends WorkflowBase {
       repo: this.context.repo.repo,
       title,
       state: this.closeMilestone ? 'closed' : 'open',
+      // eslint-disable-next-line @typescript-eslint/camelcase
       due_on: due,
     });
 

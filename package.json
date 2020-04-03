@@ -1,7 +1,7 @@
 {
   "name": "github-trello-script",
   "description": "Github action for automating various trello and github actions based on github events.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Mpirik",
   "license": "MIT",
   "main": "dist/index.js",
