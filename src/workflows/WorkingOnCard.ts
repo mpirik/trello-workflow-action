@@ -44,16 +44,21 @@ export class WorkingOnCard extends WorkflowBase {
       return 'Could not find card number in branch name';
     }
 
-    const card = await this.getCard({
-      boardId: board.id,
-      cardNumber,
-    });
+    try {
+      const card = await this.getCard({
+        boardId: board.id,
+        cardNumber,
+      });
 
-    await this.moveCard({
-      card,
-      list,
-      comment,
-    });
+      await this.moveCard({
+        card,
+        list,
+        comment,
+      });
+    } catch (ex) {
+      console.log(JSON.stringify(this.context.payload));
+      throw ex;
+    }
 
     return 'Success';
   }
