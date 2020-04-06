@@ -17,6 +17,10 @@ export class WorkingOnCard extends WorkflowBase {
   }
 
   public async execute(): Promise<string> {
+    if (this.context.payload.ref_type === 'tag') {
+      return 'Skipping tag event';
+    }
+
     const board = await this.getBoard(this.trelloBoardName);
     const list = this.getList(board, this.destinationList);
 
